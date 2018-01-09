@@ -30,15 +30,15 @@ nums_cur = {}
 n=1
 cur=1
 count=1
-max=0
+maxNum=0
 while n < 1000000:
     #if not n%100000: print 'n=', n
     #print 'n='+str(n), 'cur='+str(cur), 'count='+str(count), 'max='+str(max)
     if cur in nums:
         tmp=count+nums[cur]
-        if tmp-1 > max:
+        if tmp-1 > maxNum:
             print ('New max:', tmp-1, 'num:', n, time.time()-t)
-            max=tmp-1
+            maxNum=tmp-1
         for i in nums_cur.keys():
             nums[i]=nums[cur]+count-nums_cur[i]
         nums_cur={}
