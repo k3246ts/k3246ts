@@ -21,31 +21,34 @@ Answer maxOfIndex : 837799 max : 525
 
 @author: sharb
 '''
-import math
+import time
+t=time.time()
 
-def getCollatzNum(iInput):
-    if iInput == 1 :
-        return iInput
-    elif iInput % 2 == 0 :
-        return iInput / 2
-    else :
-        return 3 * iInput + 1
-
-iMap = [1 for _ in range(100)]
-lst = [1 for _ in range(100)]
-
-maxOfIndex = 0
-max = 2
-#get the list of Collatz
-for i in range(2, 1000001):
-    idx = i
-    seq = 2
-    while 1 != getCollatzNum(idx):
-        seq = 1+ seq
-        idx = getCollatzNum(idx)
-    if max< seq:
-        max = seq
-        maxOfIndex = i
-
-print('maxOfIndex : '+ str(maxOfIndex)+' max : '+str(max))    
-    
+nums = {1:1}
+nums_cur = {}
+# n - number we start to count until 1, cur - current number, count - current item number
+n=1
+cur=1
+count=1
+max=0
+while n < 1000000:
+    #if not n%100000: print 'n=', n
+    #print 'n='+str(n), 'cur='+str(cur), 'count='+str(count), 'max='+str(max)
+    if cur in nums:
+        tmp=count+nums[cur]
+        if tmp-1 > max:
+            print ('New max:', tmp-1, 'num:', n, time.time()-t)
+            max=tmp-1
+        for i in nums_cur.keys():
+            nums[i]=nums[cur]+count-nums_cur[i]
+        nums_cur={}
+        # Increase n until it doesn't appear in the checked-numbers array
+        while n in nums:
+            n+=1
+        cur=n
+        count=1
+    nums_cur[cur]=count
+    count+=1
+    if cur%2: cur=3*cur+1
+    else: cur/=2
+print ('Done.', time.time()-t)
